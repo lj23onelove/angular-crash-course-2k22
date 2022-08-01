@@ -1,6 +1,15 @@
+<app-global-error></app-global-error>
+
 <div class="max-w-2xl container mx-auto pt-5">
 
   <h1 class="font-bold mb-2 text-center">{{ title | titlecase }}</h1>
+
+  <input
+    type="text"
+    class="mb-2 border py-2 px-4 w-full"
+    placeholder="Filter products"
+    [(ngModel)]="term"
+  >
 
 <!--  <app-product *ngFor="let product of products"></app-product>-->
 
@@ -9,10 +18,14 @@
 
   <p *ngIf="loading" class="text-center text-lg">LOADING ... </p>
 
-  <app-product
-    *ngFor="let product of products"
-    [product]="product"
-  ></app-product>
+  <div *ngIf="products$ | async as products">
+    <app-product
+      *ngFor="let product of products | filterProducts: term"
+      [product]="product"
+    ></app-product>
+  </div>
+
+  <app-modal></app-modal>
 
 </div>
 
